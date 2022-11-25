@@ -51,35 +51,33 @@ function update() {
     return;
   }
 
-  let updated = false;
   const win = window;
   const docEl = win.document.documentElement;
+  
+  if (
+    docEl.clientHeight === dimensions.window.height &&
+    docEl.clientWidth === dimensions.window.width &&
+    win.screen.height === dimensions.screen.height &&
+    win.screen.width === dimensions.screen.width
+  ) {
+    return;
+  }
 
-  const newWindow = {
+  dimensions.window = {
     fontScale: 1,
     height: docEl.clientHeight,
     scale: win.devicePixelRatio || 1,
     width: docEl.clientWidth
   };
 
-  const newScreen = {
+  dimensions.screen = {
     fontScale: 1,
     height: win.screen.height,
     scale: win.devicePixelRatio || 1,
     width: win.screen.width
   };
   
-  if (JSON.stringify(newWindow) !== JSON.stringify(dimensions.window)) {
-    updated = true;
-    dimensions.window = newWindow;
-  }
-  
-  if (JSON.stringify(newScreen) !== JSON.stringify(dimensions.screen)) {
-    updated = true;
-    dimensions.screen = newScreen;
-  }
-  
-  return updated;
+  return true;
 }
 
 function handleResize() {
